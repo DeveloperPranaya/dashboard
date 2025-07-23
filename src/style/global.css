@@ -1,0 +1,40 @@
+.inbetween-item{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.center-item{
+     display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.renewaltype-container, .counterpary-container {
+    /* padding:16px; */
+    width:696px;
+    width: 50%;
+    height: 502px;
+    border-radius: 12px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #FFFFFF;
+}
+
+.obligation-header{
+    padding:0px 16px 14px 16px;
+    
+}
+.scroll-bar{
+    position: relative;
+    height: 414px;
+    padding: 0px 10px 10px 10px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none; 
+}
+.scroll-bar &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; 
+}
+.commoncontractbody{
+    padding:16px;
+}  

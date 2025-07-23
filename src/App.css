@@ -28,6 +28,11 @@
   color: #61dafb;
 }
 
+.custom-width-modal .modal-dialog {
+  max-width: 936px !important;
+  width: 100% !important;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
