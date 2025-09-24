@@ -15,7 +15,7 @@ export const Title = styled.div`
   export const ListItemContainer = styled.div`
    overflow-y:auto;
     position: relative;
-    height: ${(props) => props.dynamicHeight || '400px'};
+    height: ${(props) => props.$dynamicHeight || '380px'};
     padding: 0px 10px 10px 10px;
     overflow-y: auto;
   `;

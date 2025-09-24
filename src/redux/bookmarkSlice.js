@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
+const API_BASE_URL = window._env_.REACT_APP_API_BASE_URL;
 
 //post:add a bookmark
 export const addBookMark = createAsyncThunk(
     'bookMark/addBookMark',
     async (payload, thunkAPI) => {
         try {
-            const res = await axios.post("https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/add-bookmark", payload)
+            const res = await axios.post(`${API_BASE_URL}/Dashboard/add-bookmark`, payload)
             return res.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
@@ -20,7 +21,7 @@ export const fetchBookMark = createAsyncThunk(
     "bookMark/fetchBookMark",
     async (_, thunkAPI) => {
         try {
-            const res = await axios.get("https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/get-bookmarks")
+            const res = await axios.get(`${API_BASE_URL}/Dashboard/get-bookmarks`)
             return res.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
@@ -37,7 +38,7 @@ export const deleteBookMark = createAsyncThunk(
     async ({ contractId, userId }, thunkAPI) => {
         try {
             const res = await axios.delete(
-                `https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/dashboard/delete-bookmark?contractId=${contractId}&userId=${userId}`,
+                `${API_BASE_URL}/dashboard/delete-bookmark?contractId=${contractId}&userId=${userId}`,
                 {
                     params: { contractId, userId }
                 });

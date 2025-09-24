@@ -6,12 +6,20 @@ export const DashboardContainer = styled.div`
    width: 100%;
    display: flex;
    flex-direction: column;
-  min-width: 1024px;
+   overflow: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE 10+ */
+
+  &::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+  }
 `;
 
 export const MainContainer = styled.div`
-max-width: 1400px;
-    padding: 1rem;
+    margin:auto;
+    width:100%;
+    max-width: 1400px;
+    padding: 70px 1rem 1rem 1rem !important;
     background-color: #F9F6FD;
       @media (max-width: 768px) {
     padding: 0.75rem;
@@ -21,10 +29,8 @@ max-width: 1400px;
     padding: 1rem;
   }
     @media (min-width: 1200px) and (max-width: 1400px) {
-      padding: 16px 20px 0px 16px;
-    // margin: auto;
-    
-}
+      padding: 16px 20px 0px 16px; 
+}  
 `;
 
 export const HeaderWrapper = styled.div`
@@ -86,12 +92,17 @@ export const DownLoadIcon = styled.img`
    margin-right:4px;
 `;
 export const ButtonContainer = styled.div`
-   display:flex;
-   align-items:center;
-   justify-content:center;
-    padding: 9px 12px;
-    width: 83px;
-    height:32px;
-    border:1px solid #E5DAF8;
-    border-radius:4px;
+  width: ${(props) => props.dynamicWidth || '83px'};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  height: 40px;
+  border: 1px solid #E5DAF8;
+  border-radius: 4px;
+  font-size: ${(props) => props.dynamicFontSize || '14px'};
+  font-weight: ${(props) => props.dynamicFontWeight || '600'};
+  background: ${(props) => props.dynamicBackground || 'white'};
+  color: ${(props) => props.dynamicColor || 'black'};
+  cursor: pointer;
 `;

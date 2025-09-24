@@ -1,17 +1,15 @@
-
-import './App.css';
-import React from "react"
-import Dashboard from './pages/dashboard/dashboard';
-// import Demo from './pages/dashboard/demo';
+import { Routes, Route } from "react-router-dom";
+import KozmoDashboard from "./pages/KozmoDashboard";
+import IntakeAgent from "./pages/IntakeAgent";
 import "./style/global.css";
 
 function App() {
  
   return (
-    <div style={{width:"100%"}}>
-      <Dashboard/>
-      {/* <Demo/> */}
-    </div>
+     <Routes>
+      <Route path="/" element={<KozmoDashboard />} />
+      <Route path="/intake-agent" element={<IntakeAgent />} />
+    </Routes>
   );
 }
 

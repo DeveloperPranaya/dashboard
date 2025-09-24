@@ -32,7 +32,7 @@ export const CounterpartToolbar = styled.div`
 
 export const CounterpartyBody = styled.div`
   position: relative;
-  height: 330px;
+  height: 320px;
   padding: 0px 10px 10px 10px;
   overflow-y: auto;
 `;
@@ -52,8 +52,12 @@ export const SubToolbarCounterparty = styled.div`
 `;
 
 export const Dropdown = styled.select`
-  width:190px;
+  // width:190px;
   height:32px;
+  width: 200px;          /* fixed width */
+  overflow: hidden;      /* hide overflow */
+  text-overflow: ellipsis; /* add "..." for long text */
+  white-space: nowrap;   /* prevent text from wrapping */
 `;
 
 export const FilterText = styled.div`

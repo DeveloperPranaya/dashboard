@@ -1,13 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
+  background-color:#E5DAF8;
   margin: 0;
-  /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif; */
-     font-family: 'Inter', sans-serif;
+ 
+  font-family: 'Inter' !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  overflow: auto;
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge */
+
+  /* For Chrome, Safari, Edge */
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
 }
 
 code {
@@ -15,8 +29,6 @@ code {
     monospace;
 }
 
-@media (min-width: 1300px) and (max-width: 1400px) {
-  body {
-    padding: 0px 40px;
-  }
+.modal-fullscreen .modal-content {
+  height:0px;
 }

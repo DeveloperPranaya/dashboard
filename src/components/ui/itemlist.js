@@ -3,10 +3,7 @@ import Pagination from './Pagination.js'; // ✅ Import your reusable component
 import CircleImage from "../../assets/images/contractstack/circle.png";
 import FileImage from "../../assets/images/contractstack/file.png";
 import {
-  ItemListBody,
-  ItemListExtendedBody,
   ListData,
-  ListHeader,
   ListFirstData,
   Container,
   StatusDiv,
@@ -18,8 +15,8 @@ import {
 
 const ITEMS_PER_PAGE = 15;
 
-function ItemList({ data }) {
-  const [currentPage, setCurrentPage] = useState(1);
+function ItemList({ data, currentPage, setCurrentPage}) {
+  // const [currentPage, setCurrentPage] = useState(1);
   const totalPages = Math.ceil((data?.length || 0) / ITEMS_PER_PAGE);
 
   const paginatedData = data?.slice(
@@ -30,7 +27,7 @@ function ItemList({ data }) {
   return (
     <div>
       {paginatedData &&
-        paginatedData.map((value, index) => (
+        paginatedData?.map((value, index) => (
           <Container key={index}>
             <ListFirstData>
               <ListData>{value.CounterpartyName}</ListData>
@@ -39,15 +36,15 @@ function ItemList({ data }) {
 
             <ListData style={{ marginTop: "4px" }}>
               <ItemDescription>
-                <AreaContainer>{value.BusinessAreas}</AreaContainer>
+                <AreaContainer>{value.BusinessAreas ? value.BusinessAreas:'-'}</AreaContainer>
                 <Setarator><img src={CircleImage} alt="dot" /></Setarator>
-                <AreaContainer>{value.CounterpartyType}</AreaContainer>
+                <AreaContainer>{value.CounterpartyType? value.CounterpartyType:"-"}</AreaContainer>
               </ItemDescription>
             </ListData>
 
             <ListFirstData style={{ marginTop: "4px" }}>
-              <AreaContainer>{value.Country}</AreaContainer>
-              <FileContainer src={FileImage} alt="file" />
+              <AreaContainer>{value.Country ? value.Country:"-"}</AreaContainer>
+              {/* <FileContainer src={FileImage} alt="file" /> */}
             </ListFirstData>
           </Container>
         ))}

@@ -47,19 +47,19 @@ export default function StackedBarChart({ data }) {
     labels,
     datasets: [
       {
-        label: 'Auto Renew',
+        label: 'Auto Renewal',
         data: autoRenew,
         backgroundColor: '#D3BEF4',
         barThickness: 33,
       },
       {
-        label: 'Manual Renew',
+        label: 'Manual Renewal',
         data: manualRenew,
         backgroundColor: '#6023C0',
         barThickness: 33,
       },
       {
-        label: 'One Time Renew',
+        label: 'One Time Renewal',
         data: oneTimeRenew,
         backgroundColor: '#A379E7',
         barThickness: 33,
@@ -114,9 +114,9 @@ export default function StackedBarChart({ data }) {
       <Bar data={chartData} options={options} width={664} height={364}/>
 
       <StackContainer>
-        <FlexItem><Item/><p>Auto Renew</p></FlexItem>
-        <FlexItem><Item bg="#6023C0"/><p>Manual Renew</p></FlexItem>
-        <FlexItem><Item bg="#A379E7"/><p>One Time Renew</p></FlexItem>
+        <FlexItem><Item/><FlexItem>Auto Renewal</FlexItem></FlexItem>
+        <FlexItem><Item bg="#6023C0"/><FlexItem>Manual Renewal</FlexItem></FlexItem>
+        <FlexItem><Item bg="#A379E7"/><FlexItem>One Time Renewal</FlexItem></FlexItem>
       </StackContainer>
     </>
   );

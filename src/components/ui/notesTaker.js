@@ -1,81 +1,129 @@
+import { useEffect, useState } from "react"
+import { useSelector, useDispatch } from 'react-redux';
 import Button from "./Button";
+import { dropDownData } from "../../redux/dropdownSlice";
 import closeButton from "../../assets/images/navbar/closeButton.png";
-import { useDispatch } from 'react-redux';
 import { deleteNotes } from "../../redux/noteSlice";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
+import {NotesSkeleton, Skeleton} from "../../pages/skeleton";
+import MultiSelectDropDown from "./MultiSelectDropDown";
+import styled from "styled-components";
 
-function NotesTaker({ setFetchNoteData, fetchNoteData, setNotesText, validation, setValidation, contractRowKey, handleSubmit, setToggle, noteText }) {
-    const dispatch = useDispatch();
-    const onCloseHandle = async (contractId, rowKey) => {
-        try {
-            await dispatch(deleteNotes({ contractId, rowKey })).unwrap();
-            // Filter out the deleted note from the local list
-            const updatedNotes = fetchNoteData.filter(note => note.rowKey !== rowKey);
-            setFetchNoteData(updatedNotes); // Call setState from parent
-            toast.success("✅ Notes Removed");
-        } catch (error) {
-            console.error("Error deleting note:", error);
-        }
-    };
+// Styled components
+const NotifyContainer = styled.div`
+  max-height: 200px; /* limit height of notify section */
+  overflow-y: auto; /* scrollbar if more notes */
+  padding-right: 5px;
 
-    return (<>
-        <div className='notes'>
-            <textarea id="w3review" name="w3review" placeholder='Add Note' value={noteText}
-                onChange={(e) => { setNotesText(e.target.value); if (validation) setValidation(""); }} />
-            {validation && <div className="error">{validation}</div>}
-            <div className='notify-div'>Notify</div>
-            <div className='notify-container'>
-                {fetchNoteData && fetchNoteData.map((value, key) => {
-                    const { contractId, rowKey, note } = value;
-                    return (
-                        <div className="not" id={key}>
-                            <div className="notify-data">
-                                {note}
-                                <img src={closeButton} alt="close" className="clsBtn" onClick={() => onCloseHandle(contractId, rowKey)} />
-                            </div>
-                        </div>
-                    )
-                })}
-            </div>
-            <div className='notify-btn'>
-                <Button
-                    iconOnly
-                    active={false}
-                    bgColor="#F1F1F2"
-                    width="83px"
-                    height="32px"
-                    padding="1rem"
-                    onClick={handleSubmit}
-                    id={contractRowKey}
-                >
-                    Add
-                </Button>
-                <Button
-                    iconOnly
-                    active={false}
-                    bgColor="#F1F1F2"
-                    width="83px"
-                    height="32px"
-                    padding="1rem"
-                    onClick={() => setToggle(false)}
-                >
-                    Cancel
-                </Button>
-            </div>
+  /* custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+  }
+`;
+
+const NoteItem = styled.div`
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const NoteText = styled.div`
+  max-width: 220px; /* control text width inside box */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer; /* for hover */
+`;
+const Container = styled.div`
+top:64px;
+  position: relative; /* Important! Makes absolute children relative to this container */
+`;
+
+function NotesTaker({
+  setFetchNoteData,
+  fetchNoteData,
+  setNotesText,
+  validation,
+  setValidation,
+  contractRowKey,
+  handleSubmit,
+  setToggle,
+  noteText,
+  submitting,
+  loadingNotes,
+  dropdownData,
+  selectedOptions,
+   setSelectedOptions,
+   handleOptionClick,
+   options
+}) {
+  
+  const onCloseButton = () => {
+    setToggle(false);
+    setValidation("");
+    setNotesText("");
+  }
+
+  useEffect(() => {
+    setNotesText("");   // clear textarea
+    setValidation(""); 
+    setSelectedOptions([]) // reset validation
+    // setFetchNoteData([]); // clear notes instantly ⚡
+  }, [contractRowKey]);
+
+  return (
+    <Container>
+      <div className="notes">
+        <textarea
+          id="w3review"
+          name="w3review"
+          placeholder="Add Note"
+          value={noteText}
+          onChange={(e) => {
+            setNotesText(e.target.value);
+            if (validation) setValidation("");
+          }}
+        />
+        {validation && <div className="error">{validation}</div>}
+        <div className="notify-div">Notify</div>
+
+        <MultiSelectDropDown setFetchNoteData={setFetchNoteData} selectedOptions={selectedOptions} options={options} width="92%" height= "40%" notesTaker handleOptionClick={handleOptionClick}/>
+
+        <div className="notify-btn" style={{marginTop:"47px"}}>
+          <Button
+            // zIndex={500}
+            iconOnly
+            active={false}
+            bgColor="#F1F1F2"
+            width="83px"
+            height="32px"
+            padding="1rem"
+            disabled={submitting}
+            onClick={handleSubmit}
+            id={contractRowKey}
+          >
+            Add
+          </Button>
+          <Button
+            iconOnly
+            active={false}
+            bgColor="#F1F1F2"
+            width="83px"
+            height="32px"
+            padding="1rem"
+            onClick={onCloseButton}
+          >
+            Cancel
+          </Button>
         </div>
-        <ToastContainer
-                toastClassName="toast-custom"
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-              />
-        </>
-    );
+      </div>
+    </Container>
+  );
 }
 
 export default NotesTaker;

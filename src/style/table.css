@@ -35,7 +35,7 @@ h2 {
 }
 
 .contract-table .col-checkbox {
-    width: 50px;
+    width: 30px;
     /* small fixed width */
     text-align: center;
 }
@@ -131,6 +131,8 @@ h2 {
     /* light blue highlight color */
 }
 
+
+
 .notes {
     width: 279px;
     height: auto;
@@ -142,6 +144,7 @@ h2 {
     padding: 12px;
     border-radius: 6px;
     border: 1px solid #ABADAF;
+    z-index: 1000; 
 }
 textarea{
     border:none;
@@ -298,5 +301,7 @@ textarea:focus {
   0%, 100% { opacity: 0; }
   50% { opacity: 1; }
 }
+
+
 
 

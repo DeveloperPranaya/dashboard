@@ -15,45 +15,45 @@ const ViewToggleContainer = styled.div`
   padding: 4px;
 `;
 
-function ToggleButton({ clickHandle, setView, view, visibleButtons, filterbar }) {
+const viewOptions = {
+  graph: {
+    icon: graphIcon,
+    tooltip: "Graph",
+    viewState: (filterbar) => ({ type: "graph", property: filterbar }),
+  },
+  table: {
+    icon: tableSymbol,
+    tooltip: "Table",
+    viewState: () => ({ type: "table" }),
+  },
+  list: {
+    icon: hamburger,
+    tooltip: "List",
+    viewState: (filterbar) => ({ type: "list", property: filterbar }),
+  },
+};
+
+function ToggleButton({ setView, view, visibleButtons = [], filterbar }) {
+  const renderButton = (type) => {
+    const { icon, tooltip, viewState } = viewOptions[type];
+    const isactive = view?.type === type;
+
+    return (
+      <Tooltip text={tooltip} key={type}>
+        <Button
+          iconOnly
+          active={isactive}
+          onClick={() => setView(viewState(filterbar))}
+        >
+          <img src={icon} alt={tooltip} className="graphicon" />
+        </Button>
+      </Tooltip>
+    );
+  };
 
   return (
     <ViewToggleContainer>
-      {visibleButtons && visibleButtons.includes("graph") && (
-        <Tooltip text="Graph">
-          <Button
-            iconOnly
-            active={view?.type === "graph"}
-            onClick={() => setView({ type: "graph", property: filterbar })}
-          >
-            <img src={graphIcon} alt="Chart" className="graphicon" />
-          </Button>
-        </Tooltip>
-      )}
-
-      {visibleButtons && visibleButtons.includes("table") && (
-        <Tooltip text="Table">
-          <Button
-            iconOnly
-            active={view?.type === "table"}
-            onClick={() => setView({ type: "table" })}
-          >
-            <img src={tableSymbol} alt="Table" className="graphicon" />
-          </Button>
-        </Tooltip>
-      )}
-
-      {visibleButtons && visibleButtons.includes("list") && (
-        <Tooltip text="List">
-          <Button
-            iconOnly
-            active={view?.type === "list"}
-            onClick={() => setView({ type: "list", property: filterbar })}
-          >
-            <img src={hamburger} alt="List" className="graphicon" />
-          </Button>
-        </Tooltip>
-      )}
+      {visibleButtons.map((type) => viewOptions[type] && renderButton(type))}
     </ViewToggleContainer>
   );
 }

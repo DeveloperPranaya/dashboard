@@ -1,33 +1,34 @@
-import React, { useEffect, useState } from 'react';
-const AiSummary = ({ item, endDateRaw, counterparty, contractData }) => {
-    const [displayText, setDisplayText] = useState('');
+import  { useEffect, useState } from 'react';
+const AiSummary = ({ contractTitle, status, renewalType, businessArea, contractValue, item, endDateRaw,  counterparty, contractData }) => {
+  const [displayText, setDisplayText] = useState('');
 
-    const lines = [
-        `<strong>Contract Type:</strong> ${contractData.contractType || "N/A"}`,
-        `<strong>Business Area:</strong> ${contractData.businessArea || "N/A"}`,
-        `<strong>Value:</strong> ${contractData.value || "N/A"}`,
-        `<strong>Status:</strong> ${contractData.status}`,
-        `<strong>Auto-Renewal:</strong>${contractData.autoRenew}`
-    ];
+    
+const summaryLines = [
+  `📄 A *${contractTitle || "contract"}* contract was signed under the *${businessArea || "unspecified area"}*.`,
+  contractValue ? `💰 It is valued at $${contractValue}.` : "💰 The value has not been disclosed.",
+  endDateRaw ? `📅 The term ends on ${endDateRaw}.` : "📅 The end date is not specified.",
+  `📌 The contract status is **${status || "N/A"}**.`,
+  renewalType ? `🔄 The renewal type is **${renewalType}**.` : "🔄 The renewal type is not defined."
+];
 
-    const summary = `📄 A *${contractData.contractType || 'contract'}* contract was signed under the *${contractData.businessArea || 'unspecified area'}*. ` +
-  `${contractData.value ? `It is valued at ${contractData.value}. ` : ''}` +
-  `The contract status is **${contractData.status || 'N/A'}**.` +
-  `${contractData.autoRenew !== undefined ? ` Auto-renewal is ${contractData.autoRenew ? '**enabled**' : '**disabled**'}.` : ''}`;
+// Final summary (multi-line string)
+const summary = summaryLines.join("\n");
 
-    useEffect(() => {
-    let currentIndex = 0;
-    const typingInterval = setInterval(() => {
+useEffect(() => {
+  let currentIndex = 0;
+  const typingInterval = setInterval(() => {
+    if (currentIndex < summary.length) {
       setDisplayText((prev) => prev + summary[currentIndex]);
       currentIndex++;
+    } else {
+      clearInterval(typingInterval);
+    }
+  }, 30);
 
-      if (currentIndex === summary.length) {
-        clearInterval(typingInterval);
-      }
-    }, 30); // adjust speed (lower is faster)
+  return () => clearInterval(typingInterval);
+}, [summary]);
 
-    return () => clearInterval(typingInterval);
-  }, []);
+
     return (
 
        <div
@@ -42,3 +43,5 @@ const AiSummary = ({ item, endDateRaw, counterparty, contractData }) => {
     );
 };
 export default AiSummary;
+
+

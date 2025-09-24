@@ -8,23 +8,26 @@ export const ContractStackContainer = styled.div`
 `;
 
 export const ContractBox = styled.div`
- width: ${({ isWide }) => (isWide ? '676px' : '446px')};
-  height: 132px;
+  min-width: ${({ $isWide }) => ($isWide ? '49.3%' : '32.4%')};
+  height: 140px;
   padding: 16px;
   border-radius: 12px;
   background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #E5DAF8;
 
  @media (max-width: 1400px) {
-    max-width: ${({ isWide }) => (isWide ? '100%' : '367px')};
+    min-width: ${({ $isWide }) => ($isWide ? '49.3%' : '32.4%')};
   }
 `;
 
 export const ContractTitle = styled.div`
+  display:flex;
+  align-items:center;
+  justify-content:center;
   font-size: 16px;
   font-weight: 700;
-  margin-bottom: 16px;
 `;
+
 
 export const ContractData = styled.div`
   font-size: 14px;

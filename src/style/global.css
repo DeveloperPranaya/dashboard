@@ -7,6 +7,14 @@
      display:flex;
     align-items: center;
     justify-content: center;
+    
+}
+.item-start{
+    display: flex;
+    align-items: center;
+}
+.marginbtn{
+    margin-bottom: 16px;
 }
 .renewaltype-container, .counterpary-container {
     /* padding:16px; */
@@ -15,9 +23,32 @@
     height: 502px;
     border-radius: 12px;
     margin-top: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     background-color: #FFFFFF;
+    border: 1px solid #E5DAF8 !important;
 }
+.marginb{
+    margin-bottom: 20px;
+}
+.itemflex{
+    display:felx;
+}
+
+.pointer{
+    cursor: pointer;
+}
+.textSize{
+    font-size:13px;
+    font-weight: 500;
+    line-height: 20px;
+}
+.spaceright{
+    margin-right:4px;
+}
+
+.fontend{
+    text-align:end !important;
+}
+
 
 .obligation-header{
     padding:0px 16px 14px 16px;
@@ -38,3 +69,163 @@
 .commoncontractbody{
     padding:16px;
 }  
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-menu{
+    padding:5px;
+    width:261px;
+    max-height:222px;
+    top: 100%;
+    left: -170px !important;
+    margin-top: var(--bs-dropdown-spacer);
+    border-radius: 6px;
+}
+
+.dropdown-submenu > .dropdown-menu {
+  top: 0 !important;
+  left: auto !important;
+  right: 100%;  /* ✅ push to the left of parent */
+  margin-top: 0;
+}
+.clear-item{
+    color:#b3261e !important;
+}
+
+.active-dropdown{
+   color:#6023C0 !important;
+}
+
+.activedropdown{
+    background-color: #F9F6FD;
+    margin-bottom: 5px;
+}
+.dropdown-toggle::after 
+ {
+    display: none !important;
+}
+
+.filter-count{
+    font-size:12px;
+    background:#E5DAF8;
+    display:flex;
+     align-items:center;
+     justify-content:center;
+    border-radius:100px;
+    width:22px;
+    height:18px;
+}
+
+.gapinfilter{
+    gap:5px;
+}
+
+.filter-button{
+    width: 121px;
+    height: 40px;
+    border: 1px solid #E7E7E8;
+}
+.single-line-ellipsis {
+  display: inline-block;
+  width: 100%; /* or fixed width like 300px */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-link {
+  color: #333;               /* Your custom font color */
+  text-decoration: none;     /* Remove underline */
+  font-weight: 600;
+  font-size: 13px;
+  font: height 20px;
+}
+
+.filter-container{
+    width:91px;
+    height: 40px;
+    font-size:14px;
+    font-weight: 600;
+    line-height:24px;
+    border: 1px solid #E7E7E8;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    z-index: 100px !important;
+}
+
+
+.tooltip.my-tooltip .tooltip-inner {
+  max-width: 500px;             /* width control */
+  background-color: #f9f9f9;    /* bg color */
+  color: black;                 /* text color */
+  border: 1px solid rgb(239, 239, 239);      /* border */
+  font-size: 12px;
+  padding: 8px 12px;
+}
+
+.setting-modal{
+    background-color: #E5DAF8;
+}
+
+.not-clickable {
+  cursor: not-allowed !important;  /* Show blocked cursor */
+  opacity: 0.6;                    /* Visual disabled state */
+  color: gray;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.ai-agent-accordian{
+    border:1px solid #E7E7E8 !important;
+  border-radius:8px !important;
+}
+.accordianButton{
+    min-width:1000px;
+     border:1px solid #E7E7E8 !important;
+  border-radius:8px !important;
+  background-color: #FFFFFF;
+    padding:16px;
+}
+.accordion-button:after{
+    background-color: #FFFFFF !important;
+}
+.accordion-header:after{
+     background-color: #FFFFFF !important;
+}
+.accordion-button:not(.collapsed) {
+     background-color: #FFFFFF !important;
+}
+.accordion-button:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+.sticky-date {
+  position: sticky;
+  top: 0; /* stays at top until next section pushes it */
+  background: #F9F6FD; /* or your container background */
+  z-index: 5;       /* ensures it floats above accordions */
+}
+.graph-skeleton {
+    margin-top:20px;
+  width: 50%;
+  border-radius: 8px;
+  /* background: linear-gradient(90deg, #eee, #f5f5f5, #eee); */
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+.graph-skeleton.small { height: 200px; }
+.graph-skeleton.medium { height: 300px; }
+.graph-skeleton.large { height: 500px; }
+
+.data-blur {
+  filter: blur(6px);
+  opacity: 0.6;
+  pointer-events: none; /* prevent interaction if needed */
+  user-select: none;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+
+

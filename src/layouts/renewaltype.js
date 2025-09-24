@@ -1,15 +1,26 @@
-import React, { useState } from "react"
+import { useState } from "react";
+import { useSelector } from 'react-redux';
 import ContractHeader from "../components/ui/contractheader";
-import CommonTable from "../components/ui/CommonTable";
-import { contractType } from "../mockdata/mockdata";
-import StackedBarChart from "../components/ui/stackbarchat"
+import StackedBarChart from "../components/ui/stackbarchat";
+import { HorizontalBarChart } from "../components/ui/CommonHorizontalBarChart.js";
+import NoDataAvailable from "../components/ui/NoDataAvailable.js";
+import {GraphSkeleton} from "../style/ActivityDetailGraphStyle"
 
-function RenewalType({ renewalType }) {
+function RenewalType({ renewalType , selectedDropdown }) {
+  const [selected, setSelected] = useState('Sales - Business Area');
+  const { data: cardContainer } = useSelector((state) => state.dashboard);
   const [view, setView] = useState({ type: "graph" });
+  const globalRenewalType = cardContainer?.WG019?.Result?.Data || [];
+  const globalRenewal = globalRenewalType.map(data => data.BusinessArea);
+  const renewalLabels = Object.keys(globalRenewalType[0] || {}).filter(key => key !== 'BusinessArea');
+  const backgroundColors = ['#3B1676', '#4F1D9E', '#6023C0', '#7434DB'];
+
+  const handleDropdownChange = (e) => {
+    setSelected(e.target.value);
+  };
 
   function transformRenewalData(flatData) {
     const result = {};
-
     flatData && Object.entries(flatData).forEach(([key, value]) => {
       const match = key.match(/^([A-Za-z]+)Month(.+)$/);
       if (match) {
@@ -18,41 +29,85 @@ function RenewalType({ renewalType }) {
         if (!result[month]) {
           result[month] = {
             month,
-            AutoRenew: 0,
-            ManualRenew: 0,
-            OneTimeRenew: 0,
+            AutoRenewal: 0,
+            ManualRenewal: 0,
+            OneTimeRenewal: 0,
           };
         }
         result[month][type] = value;
       }
     });
-
-    // Convert to array and sort by month order (Jan, Feb, Mar...)
     const monthOrder = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     return monthOrder
-      .filter(month => result[month]) // keep only months present in the data
+      .filter(month => result[month])
       .map(month => result[month]);
   }
 
-  const transformedData = transformRenewalData(renewalType);
-  return (
-    <div className="renewaltype-container">
-      <ContractHeader heading="Renewals By Type" visibleButtons={["graph", "table"]} view={view}
-        setView={setView} />
-      {view.type === "graph" ? (
-      //  <div className="commoncontractbody">
-        <StackedBarChart data={transformedData} height={414}/>
-        // </div>
+  const selectedBusinessData = globalRenewalType.find(item => item.BusinessArea === selected);
 
-      ) : (
-        <div className="scroll-bar commoncontractbody">
-          <CommonTable
-            headers={contractType}
-            renewalType={transformedData}
-          />
-        </div>
-      )}
-    </div>
-  )
+  const chartData = selectedBusinessData ? {
+    labels: renewalLabels,
+    datasets: [{
+      label: selectedBusinessData.BusinessArea,
+      data: renewalLabels.map(label => selectedBusinessData[label]),
+      backgroundColor: backgroundColors
+    }]
+  } : null;
+
+  const chartOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      },
+      title: {
+        display: true,
+        text: selected ? `Contract Renewals - ${selected}` : 'Contract Renewals'
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true
+      }
+    }
+  };
+
+  const transformedData = transformRenewalData(renewalType);
+
+  const hasOnlyZeros = transformedData.every(
+  item =>
+    item.AutoRenew === 0 &&
+    item.ManualRenew === 0 &&
+    item.OneTimeRenew === 0
+);
+
+   if(renewalType && renewalType.length === 0){
+          return <div className="graph-skeleton large" />
+        }
+
+return (
+  <div className="renewaltype-container">
+    <ContractHeader
+      heading="Renewals By Type"
+      visibleButtons={["graph"]}
+      view={view}
+      setView={setView}
+      globalRenewal={globalRenewal}
+      selectedDropdown={selectedDropdown}
+      onChange={handleDropdownChange}
+      desc = "Visualizes upcoming renewals categorized by business area and renewal type (e.g., Auto-renewal, Manual). Use the dropdown to select a different business area"
+    />
+    {(!transformedData.length || hasOnlyZeros) ? (
+        <NoDataAvailable /> 
+    ) : selected !== "" && chartData && globalRenewal ? (
+      <HorizontalBarChart data={chartData} options={chartOptions} />
+    ) : (
+      <StackedBarChart data={transformedData} height={414} />
+    )}
+  </div>
+);
+
 }
+
 export default RenewalType;

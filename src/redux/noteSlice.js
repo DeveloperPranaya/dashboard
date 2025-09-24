@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+const API_BASE_URL = window._env_.REACT_APP_API_BASE_URL;
 
 export const addNote = createAsyncThunk(
     'notes/addNote',
     async (payload, thunkAPI) => {
+       
         try {
-            const res = await axios.post("https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/add-note", payload)
+            const res = await axios.post(`${API_BASE_URL}/Dashboard/add-note`, payload)
             return res.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
@@ -19,8 +21,7 @@ export const fetchNotesData = createAsyncThunk(
     "notes/fetchNotesData",
     async ({ contractId }, thunkAPI) => {
         try {
-            const res = await axios.get(`https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/get-usernote?contractId=${contractId}`)
-            console.log("res.data:-",res.data);
+            const res = await axios.get(`${API_BASE_URL}/Dashboard/get-usernote?contractId=${contractId}`)
             return res.data;
         } catch (err) {
             return thunkAPI.rejectWithValue(err.message);
@@ -37,7 +38,7 @@ export const deleteNotes = createAsyncThunk(
     async ({ contractId, rowKey }, thunkAPI) => {
         try {
             const res = await axios.delete(
-                `https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/delete-usernote?contractId=${contractId}&rowKey=${rowKey}`,
+                `${API_BASE_URL}/Dashboard/delete-usernote?contractId=${contractId}&rowKey=${rowKey}`,
                 {
                     params: { contractId, rowKey }
                 });

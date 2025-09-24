@@ -29,7 +29,7 @@
 }
 
 .custom-width-modal .modal-dialog {
-  max-width: 936px !important;
+  /* max-width: 936px !important; */
   width: 100% !important;
 }
 

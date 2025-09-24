@@ -1,27 +1,23 @@
-// components/CommonDropdown.jsx
-import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const DropDownWrapper = styled.select`
-    width: ${(props) => props.dynamicHeight || '215px'};
-    height: ${(props) => props.dynamicHeight || '28px'};
-    border:${(props) => props.dynamicBorder || "none"};
-    
-   font-size:${(props)=>props.dynamicFont || "18px"};
-   color:#0E1012;
-   font-weight:${(props) => props.dynamicweidht || "700"};
-   line-height:28;
-   margin-right:10px;
-   background:${(props) => props.dynamicBackground || "#F9F6FD"};
-   focus-visible:outline-none !important;
+  width: ${(props) => props.dynamicWidth || '100%'};
+  max-width: ${(props) => props.dynamicmaxWidth || '100%'};
+  height: ${(props) => props.dynamicHeight || '28px'};
+  border: ${(props) => props.dynamicBorder || "none"}; 
+  font-size: ${(props) => props.dynamicFont || "18px"};
+  color: #0E1012;
+  font-weight: ${(props) => props.dynamicfontWight || "700"};
+  line-height: ${(props) => props.dynamicLineHeight || "28"}; 
+  background: ${(props) => props.dynamicBackground || "#F9F6FD"};
+  focus-visible:outline-none !important;
+  boxSizing: 'border-box';
 `;
+
 const CommonDropdown = ({
   options = [],
   selectedValue,
   onChange,
-  label = '',
-  placeholder = 'Select an option',
-  className = '',
   id = '',
   name = '',
   dynamicBackground,
@@ -29,10 +25,13 @@ const CommonDropdown = ({
   dynamicWidth,
   dynamicHeight,
   dynamicFont,
-  dynamicweidht
+  dynamicmaxWidth,
+  dynamicLineHeight,
+  dynamicfontWight,
+  placeholder = '',   // <-- new prop
 }) => {
-  
   const safeOptions = Array.isArray(options) ? options : [];
+
   return (
     <DropDownWrapper
       id={id || name}
@@ -44,12 +43,18 @@ const CommonDropdown = ({
       dynamicWidth={dynamicWidth}
       dynamicHeight={dynamicHeight}
       dynamicFont={dynamicFont}
-      dynamicweidht={dynamicweidht}
+      dynamicmaxWidth={dynamicmaxWidth}
+      dynamicLineHeight={dynamicLineHeight}
+      dynamicfontWight={dynamicfontWight}
     >
-      <option value="" disabled>{placeholder}</option>
+      {placeholder && (
+        <option value="" disabled hidden>
+          {placeholder}
+        </option>
+      )}
       {safeOptions.map((option, idx) => (
         <option key={idx} value={option}>
-          {option}
+          {option && option.replace(/[-_]+/g, ' ').trim()}
         </option>
       ))}
     </DropDownWrapper>

@@ -2528,7 +2528,7 @@ const SearchFilter = () => {
    
 
     const numOfPages = Math.ceil(posts.length / postPerPage);
-    // console.log(numOfPages);
+
 
     const numOfButtons = [];
     for (let i = 1; i <= numOfPages; i++) {

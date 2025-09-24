@@ -160,11 +160,11 @@ export const HighlightedRow = styled.tr`
 `;
 
 export const TdTitle = styled.td`
-  max-width: 282px;         // Add max-width to enforce boundary
-  width: 282px;
-  white-space: nowrap;      // Prevent line break
-  overflow: hidden;         // Hide overflow content
-  text-overflow: ellipsis;  // Show ellipsis (...)
+  max-width: ${({ maxWidth }) => maxWidth || "250px"};  
+  width: ${({ maxWidth }) => maxWidth || "250px"};        
+  white-space: nowrap;      
+  overflow: hidden;         
+  text-overflow: ellipsis;  
 `;
 
 export const TdCounterparty = styled.td`

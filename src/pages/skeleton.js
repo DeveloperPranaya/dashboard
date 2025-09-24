@@ -2,7 +2,7 @@
 import React from 'react';
 import '../style/skeleton.css'; // create animation styles
 
-const Skeleton = ({height = "500px", width = "100%", borderRadius = "8px", count = 3  }) => {
+export const Skeleton = ({height = "500px", width = "100%", borderRadius = "8px", count = 3  }) => {
   return <>
   <div className="skeleton" style={{ height:"50px", width, borderRadius }} />
   
@@ -31,4 +31,37 @@ const Skeleton = ({height = "500px", width = "100%", borderRadius = "8px", count
   </>
 };
 
-export default Skeleton;
+export const NotesSkeleton = ({
+  height = "20px",
+  width = "100%",
+  borderRadius = "8px",
+  count = 3,   // number of skeleton lines
+}) => {
+  return (
+    <>
+      {Array.from({ length: count }).map((_, index) => (
+        <div
+          key={index}
+          className="notesskeleton"
+          style={{ height, width, borderRadius, marginBottom: "10px" }}
+        />
+      ))}
+    </>
+  );
+};
+
+
+export const GraphSkliton = () =>{
+ return  <div className="graph-skeleton"></div>
+}
+
+export const SkeletonLine = ({ height = "20px", width = "80%", borderRadius = "4px" }) => {
+  return (
+    <div
+      className="skeleton"
+      style={{ height, width, borderRadius, marginBottom: "6px" }}
+    />
+  );
+};
+
+

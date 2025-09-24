@@ -1,31 +1,38 @@
-import React from 'react';
+import { Link } from "react-router-dom";
 import vectorImg from "../assets/images/topnavbar/Vector.png";
 import leftIcon from "../assets/images/topnavbar/leftIcon.png";
-import {
-  NavbarContainer,
-  EContractText,
-  CenterContainer,
-  Spacer,
-  LeftIconImg,
-  VectorImg
-} from '../style/navbarStyle';
+import settingIcon from "../assets/images/topnavbar/settings.png";
+import { redirectToeContract } from "../mockdata/mockdata";
+import Tooltip from "../components/ui/tooltip";
+import DashboardSetting from "./DashboardSetting";
+import CommonNavbar from "../components/ui/CommonNavbar";
+import { VectorImg } from "../style/navbarStyle";
 
-function Navbar() {
+function Navbar({ cardContainer, dropdownDataset }) {
   return (
-    <NavbarContainer>
-      <EContractText>
-        <LeftIconImg src={leftIcon} alt="left-icon" />
-        Back to eContracts
-      </EContractText>
-
-      <CenterContainer>
-        <VectorImg src={vectorImg} alt="vector" />
-        Kozmo Dashboard
-      </CenterContainer>
-
-      <Spacer />
-    </NavbarContainer>
+    <CommonNavbar
+      leftLink={redirectToeContract}
+      centerIcon={vectorImg}
+      centerText="Kozmo Dashboard"
+      rightContent={({ setShowModal }) => (
+        <>
+           {/* <Link to="/intake-agent">Kozmo Intake Agent</Link> */}
+          <Tooltip text="Dashboard Setting" position="left">
+             <VectorImg
+              src={settingIcon}
+              alt="setting"
+              onClick={() => setShowModal(true)}
+            />
+          </Tooltip>
+        </>
+      )}
+      modalTitle="Kozmo Dashboard Setting"
+      modalBody={({ setShowModal }) => (
+        <DashboardSetting handleClose={() => setShowModal(false)} cardContainer={cardContainer} dropdownDataset={dropdownDataset}/>
+      )}
+    />
   );
 }
 
 export default Navbar;
+

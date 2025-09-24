@@ -1,59 +1,99 @@
-import React, { useState, useEffect } from "react";
-import downloadImg from "../assets/images/header/download.png";
-import refreshImg from "../assets/images/header/refresh.png";
+import { useState, useEffect } from "react";
+import axios from 'axios';
 import icon from "../assets/images/header/icon.png"
 import { IconGroup, Icon, TopBar, HeaderWrapper, ModalContainer, Heading, Description } from "../style/dashboardStyle";
 import CommonDropdown from "../components/ui/CommonDropDown";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDashboardData } from "../redux/dashboardSlice";
 import CommonModal from "../components/ui/commonModal";
+import TooltipWrapper from "../components/ui/TooltipWrapper";
+import { aboutDesc } from "../mockdata/mockdata";
+import { getTimeDifferencee } from "../commonFunction/commonfunction";
+const API_BASE_URL = window._env_.REACT_APP_API_BASE_URL;
 
-function Header() {
+function Header({ options, selected, handleDropdownChange }) {
   const dispatch = useDispatch();
   const dashboardData = useSelector((state) => state.dashboard.data);
-  const [loading, setLoading] = useState(false);
-  const [options, setOptions] = useState([]);
-  const [selected, setSelected] = useState('Global-Dashboard');
+  const [businessData, setBusinessAreaData] = useState();
+  const [lastRefreshTime, setLastRefrestData] = useState();
+  const [result, setResult] = useState();
+  const [, setLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const WG018 = dashboardData?.WG018;
-  const businessData = WG018?.Result?.Data?.BAInfo;
-  const businessHeading = WG018?.Result?.Data?.BAInfo;
+  const WG018 = dashboardData?.dashboard?.WG018;
+  const { businessAreaName, owner, description } = businessData || {};
+  const index = options.indexOf("Global-Dashboard");
 
-const handleDropdownChange = async (e) => {
-  
-  const value = e.target.value;
-  setSelected(value);
-  setLoading(true); // Show loader
-
-  try {
-    await dispatch(fetchDashboardData({
-      business_area: value,
-      layout: 'Cs_Layout',
-    }));
-  } finally {
-    setLoading(false); // Hide loader
+  if (index > -1) {
+    // Remove it from current position
+    options.splice(index, 1);
+    // Add it at the 0th position
+    options.unshift("Global-Dashboard");
   }
-};
-
-
-  useEffect(() => {
-    if (dashboardData) {
-      // console.log("Dashboard Data:", dashboardData);
-    }
-  }, [dashboardData]);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       try {
-        const response = await fetch('https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/dashboard/business-areas')
-        const data = await response.json();
-        setOptions(data)
-      } catch (e) {
-        console.error(e);
+        await Promise.all([
+          dispatch(fetchDashboardData({
+            business_area: selected,
+            layout: 'Cs_Layout',
+          })),
+          axios.get(
+            `${API_BASE_URL}/Dashboard/scheduler?baName=${encodeURIComponent(selected)}`
+          ).then(res => {
+            setLastRefrestData(res.data)
+            // dispatch to Redux if needed
+          })
+        ]);
+      } finally {
+        setLoading(false);
       }
     }
+
     fetchData();
-  }, []);
+  }, [dispatch, selected]);
+
+  useEffect(() => {
+    if (lastRefreshTime?.lastRun) {
+      const diff = getTimeDifferencee(lastRefreshTime.lastRun);
+      setResult(diff);
+    }
+  }, [lastRefreshTime]);
+
+   useEffect(() => {
+  if (!selected) return; // avoid unnecessary call
+
+  // reset old data
+  setBusinessAreaData(undefined);
+
+  // if it's Global-Dashboard, skip API and hardcode
+  if (selected === "Global-Dashboard") {
+    setBusinessAreaData({
+      businessAreaName: "Global-Dashboard",
+      owner: "Admin user", // 👈 put your hardcoded values
+      description: "This dashboard provides a global overview of business areas.",
+    });
+    return;
+  }
+
+  // otherwise call API
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        `https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/get-ba-description`,
+        {
+          params: { businessAreaName: selected },
+        }
+      );
+      setBusinessAreaData(response.data);
+    } catch (e) {
+      console.error("Error fetching business area data:", e);
+    }
+  };
+
+  fetchData();
+}, [selected]);
 
 
   return (
@@ -61,12 +101,11 @@ const handleDropdownChange = async (e) => {
       <HeaderWrapper>
         <TopBar>
           <CommonDropdown
-            label="Choose Framework"
             options={options}
             selectedValue={selected}
             onChange={handleDropdownChange}
-            placeholder="Select a Business Area"
             name="framework"
+            dynamicWidth="324px"
           />
           <IconGroup>
             <CommonModal
@@ -76,36 +115,43 @@ const handleDropdownChange = async (e) => {
               size="xl"
               customClass="custom-width-modal"
             >
-              {businessData && businessData.map((data) => {
-                return <div>
+              {/* {businessData && businessData.map((data, key) => { */}
+                {/* return <div> */}
                   <ModalContainer>
                     <div style={{ width: '416px' }}>
                       <Heading>Business Area Name</Heading>
-                      <Description>{data.BusinessAreaName}</Description>
-                    </div>
-                    <div>
-                      <Heading>Business Area Name</Heading>
-                      <Description>{data.BusinessAreaName}</Description>
+                      <Description>{businessAreaName}</Description>
                     </div>
                   </ModalContainer>
-                   <ModalContainer>
+                  <ModalContainer>
                     <div>
                       <Heading>Owner</Heading>
-                      <Description>{data.Owner}</Description>
+                      <Description>{owner}</Description>
                     </div>
                   </ModalContainer>
                   <ModalContainer>
                     <div>
                       <Heading>Description</Heading>
-                      <Description>{data.Description}</Description>
+                      <Description>{description}</Description>
                     </div>
                   </ModalContainer>
-                </div>
-              })}
+                {/* </div> */}
+              {/* })} */}
             </CommonModal>
-            <Icon src={icon} alt="refresh" onClick={() => setShowModal(true)} />
-            <Icon src={downloadImg} alt="download" />
-            <Icon src={refreshImg} alt="refresh" />
+            <div className="center-item">
+              {result && (
+                <div className="spaceright textSize" style={{ color: "gray" }}>
+                  Last Update{" "}
+                  {result.days > 0 && `${result.days}d `}
+                  {result.hours > 0 && `${result.hours}h `}
+                  {result.minutes > 0 && `${result.minutes}m `} 
+                  {result.seconds > 0 && `${result.seconds}s`} ago
+                </div>
+              )}
+              <TooltipWrapper title={aboutDesc} placement="top" customClass="my-tooltip">
+                <Icon src={icon} alt="refresh" onClick={() => setShowModal(true)} />
+              </TooltipWrapper>
+            </div>
           </IconGroup>
         </TopBar>
       </HeaderWrapper>

@@ -10,22 +10,28 @@ export const StyledCard = styled.div`
   background: white;
   padding: 20px;
   border-radius: 8px;
-  width: 318px;
+  min-width: 23.68%;
   height: 126px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
   position: relative;
-  border: 1px solid ${({ isActive }) => (isActive ? '#7434DB' : '#ddd')};
+  border: 1px solid ${({ $isActive }) => ($isActive ? '#7434DB' : '#ddd')};
   cursor: pointer;
   transition: border 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   &:hover {
     border: 1px solid #7434DB;
   }
 
   @media (max-width: 1400px) {
-    width: 251px;
+    min-width: 23.68%;
     padding: 12px 16px;
   }
+  @media (min-width: 1200px) and (max-width: 1259px) {
+  min-width: 22.68%;
+  padding: 12px 16px;
+}
 `;
 
 export const Title = styled.div`
@@ -50,14 +56,4 @@ export const Label = styled.div`
   color: #52555A;
 `;
 
-export const ProgressRing = styled.div`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
-  border: 4px solid #eee;
-  border-top-color: #8952E0;
-  border-radius: 50%;
-  transform: rotate(45deg);
-`;
+

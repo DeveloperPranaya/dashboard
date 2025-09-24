@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
 export const NavbarContainer = styled.nav`
+    width: 100%;
+  position: fixed;
+  margin-bottom:200px;
   background-color: #E5DAF8;
   padding: 15.5px 30px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  position: sticky;
   top: 0;
   z-index: 20;
 `;
@@ -19,6 +21,16 @@ export const CenterContainer = styled.div`
   font-size: 14px;
   line-height: 24px;
   font-weight: 600;
+`;
+
+export const KozmoAgent = styled.div`
+display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  line-height: 24px;
+  font-weight: 600;
+  gap:10px;
 `;
 
 export const EContractText = styled.div`
@@ -34,6 +46,9 @@ export const Spacer = styled.div`
 `;
 
 export const LeftIconImg = styled.img`
+display:flex;
+align-items:center;
+justify-content:center
   width: 10px;
   height: 10px;
   margin-right: 5px;
@@ -41,7 +56,7 @@ export const LeftIconImg = styled.img`
 `;
 
 export const VectorImg = styled.img`
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
   margin-right: 8px;
 `;
