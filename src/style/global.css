@@ -9,6 +9,12 @@
     justify-content: center;
     
 }
+
+.item-inbetween{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+}
 .item-start{
     display: flex;
     align-items: center;

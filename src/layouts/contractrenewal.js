@@ -23,7 +23,6 @@ import {GraphSkeleton} from "../style/ActivityDetailGraphStyle"
 
 
 function ContractRenewal({ carddata }) {
-
   const firstCardKey = useMemo(() => Object.keys(carddata || {})[0], [carddata]);
   const [activeFilterTypes, setActiveFilterTypes] = useState([]);
   const [toggle, setToggle] = useState(false);
@@ -144,7 +143,7 @@ function ContractRenewal({ carddata }) {
   return (
     <ContractRenewalBody style={{ border: "1px solid #E5DAF8" }}>
         <div className='inbetween-item marginb'>
-          <ContractRenewalTitle>Contract Renewals</ContractRenewalTitle>
+          <ContractRenewalTitle>Upcoming Contract Renewals</ContractRenewalTitle>
           <TooltipWrapper title={contractRenewalInfo} placement="top" customClass="my-tooltip">
             <img
               src={Iicon}

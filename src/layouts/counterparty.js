@@ -3,7 +3,7 @@ import { counterparty } from "../mockdata/mockdata";
 import Select from "react-select";
 import Button from '../components/ui/Button';
 import ItemList from '../components/ui/itemlist';
-import PieChart from '../components/ui/piechart';
+import {PieChart} from '../components/ui/piechart';
 import ContractHeader from '../components/ui/contractheader';
 import { CounterpartyContainer, CounterPartyToolContainer, CounterpartToolbar, SubToolbarCounterparty, Dropdown } from "../style/counterpartyStyle";
 import NoDataAvailable from '../components/ui/NoDataAvailable';
@@ -24,14 +24,6 @@ function CounterParty({ counterPartyData }) {
       label: value
     }))
   ];
-
-  // const countryOptions = [
-  //   { value: "", label: "Select a Country" },
-  //   ...[...new Set(counterPartyDetails?.map(item => item[country]))].map(value => ({
-  //     value,
-  //     label: value
-  //   }))
-  // ];
 
   const countryOptions = [
     { value: "", label: "Select a Country" },
@@ -91,7 +83,7 @@ function CounterParty({ counterPartyData }) {
         visibleButtons={["list", "graph"]}
         setView={setView}
         view={view}
-        desc="Pie chart / Tabular breakdown of contracts based on counterparty type (e.g., Distributors, Dealers, GPOs). Toggle tabs to view data by country or contract status"
+        desc="This chart provides a breakdown of all counterparties by type, with the total number of counterparties shown in the center. Toggle the tabs to view the data by country or contract status."
       />
       <CounterPartyToolContainer>
         <CounterpartToolbar>
@@ -143,7 +135,7 @@ function CounterParty({ counterPartyData }) {
       <div className='counterparty-body'>
         {view.type === "graph" ? (
           counterPartyDetails?.length > 0 ? (
-            <PieChart filterbar={filterbar} counterPartyData={counterPartyDetails} />
+             <PieChart filterbar={filterbar} counterPartyData={counterPartyDetails} />   
           ) : (
             <NoDataAvailable />
           )

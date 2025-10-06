@@ -1,15 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 const API_BASE_URL = window._env_.REACT_APP_API_BASE_URL;
+
+// Track whether it's the first load
+let isFirstLoad = true;
 
 export const fetchDashboardData = createAsyncThunk(
   'dashboard/fetchData',
   async (selected, thunkAPI) => {
     const searchParams = new URLSearchParams(window.location.search);
-    const urlBusinessArea = searchParams.get("businessArea");
+    let urlBusinessArea = searchParams.get("businessArea");
+
+    // Clean first character if not alphabet
+    if (urlBusinessArea) {
+      urlBusinessArea = urlBusinessArea.trim();
+      urlBusinessArea = urlBusinessArea.replace(/^[^a-zA-Z]+/, ""); // remove leading non-alpha
+    }
+  
+
     try {
       const { business_area, layout } = selected;
-      const finalBusinessArea = business_area || urlBusinessArea ;
+    
+
+      let finalBusinessArea;
+      if (isFirstLoad && urlBusinessArea) {
+        // ✅ Use URL param only on first page load
+        finalBusinessArea = urlBusinessArea;
+      } else {
+        // ✅ For subsequent calls, use explicitly passed business_area
+        finalBusinessArea = business_area || urlBusinessArea;
+      }
+
+
+      // Mark first load as complete
+      isFirstLoad = false;
+
       const [dashboardRes, schedulerRes] = await Promise.all([
         axios.get(
           `${API_BASE_URL}/Dashboard/dashboard-data?business_area=${encodeURIComponent(finalBusinessArea)}&layout=${encodeURIComponent(layout)}`
@@ -54,3 +80,4 @@ const dashboardSlice = createSlice({
 });
 
 export default dashboardSlice.reducer;
+

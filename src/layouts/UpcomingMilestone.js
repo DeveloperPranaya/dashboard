@@ -26,7 +26,7 @@ function UpcomingMilestone({ upComingMilestone, businessAreaRead, selected }) {
 
   return (
     <MainContainer className="renewaltype-container">
-      <ContractHeader heading="Upcoming Milestone" desc="Displays key upcoming dates and deadlines defined in contracts.  Filter by milestone status" />
+      <ContractHeader heading="Upcoming Milestone" desc="This display shows key upcoming dates and deadlines defined in contracts. Filter the information by milestone status." />
       <CounterpartToolbar>
         <div className='toolbar-counterparty'>
           {upcomingMileStone.map((value, key) => {
@@ -50,6 +50,7 @@ function UpcomingMilestone({ upComingMilestone, businessAreaRead, selected }) {
         statusKey="milestoneStatus"
          businessAreaRead={businessAreaRead}
           selected={selected}
+          upcomingMileStone
       />
       </ListItemContainer>
       <ToastContainer

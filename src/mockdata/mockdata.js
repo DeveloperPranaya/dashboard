@@ -65,6 +65,54 @@ export const tableHeaders = [
   { id: 9, label: "Action" },
 ];
 
+export const counterTypeTableHeader = [
+  { id: 1, label: "Contract Title" },
+  { id: 2, label: "Counterparty Name"},
+  { id: 3, label: "Region" },
+  { id: 4, label: "Renewal Type" },
+  { id: 5, label: "Contract Value"},
+  { id: 6, label: "Status" },
+  { id: 7, label: "Creation Date" },
+  { id: 8 , label: "Termination Date" },
+];
+
+export const regionTableHeader = [
+  { id: 1, label: "Contract Title" },
+  { id: 2, label: "Counterparty Name",},
+  { id: 3, label: "Renewal Type" },
+  { id: 4, label: "Contract Value" },
+  { id: 5, label: "Status" },
+  { id: 6, label: "Creation Date" },
+  { id: 7 , label: "Termination Date" },
+]
+
+export const renewalTableHeader = [
+  { id: 1, label: "Contract Title"},
+  { id: 2, label: "Counterparty Name"},
+  { id: 3, label: "Region"},
+  { id: 4, label: "Contract Value"},
+  { id: 5, label: "Status" },
+  { id: 6, label: "Creation Date" },
+  { id: 7 , label: "Termination Date" },
+]
+
+export const ctdTableHeader = [
+  { id: 1, label: "Contract Title" },
+  { id: 2, label: "Counterparty Name" },
+  { id: 3, label: "Created By"},
+  { id: 4, label: "Status" },
+  { id: 5, label: "Creation Date" },
+]
+
+export const counterpartyHeader = [
+  { id: 1, label: "Global/Regional" },
+  { id: 3, label: "Counterparty Name" },
+  { id: 4, label: "Counterparty Type" },
+  {id: 5, label: "Country"},
+   { id: 6, label: "Status" },
+  { id: 7, label: "Creation Date" },
+]
+
   export const month = ["jan","feb","march","April","May", "jun","july","augest", "setpt","oct","Nov","Dec"]
     export const showFields = [
     "Contracts.ContractTitle",
@@ -114,12 +162,12 @@ export const tableHeaders = [
   export const apiSummeryAPI = `${API_BASE_URL}/Dashboard/generate-ai-insights`
   
   export const ITEMS_PER_PAGE = 10;
-  export const aboutDesc = "This dashboard provides a summary of key contract metrics including renewals, contract types, obligations, milestones, and signatures across Global and selected business areas.";
-  export const contractRenewalInfo = "Displays the number of contracts set to expire within the next 0–120 days, segmented into time ranges. Helps monitor upcoming renewals and prioritize actions.";
+  export const aboutDesc = "This dashboard summarizes key contract metrics, including renewals, contract types, obligations, milestones, and signatures, across global and selected business areas.";
+  export const contractRenewalInfo = "This section displays the number of contracts set to expire within the next 120 days, segmented into time ranges. It helps you monitor upcoming renewals and prioritize actions.";
   export const renewlTypeInfo = "Visualizes upcoming renewals categorized by business area and renewal type (e.g., Auto-renewal, Manual). Use the dropdown to select a different business area";
-  export const newContractDesc = "Count of new contracts created in the current and previous months, and year-to-date. Reflects contract onboarding activity";
-  export const contactSigDesc = "Shows the number of contracts signed in each month and cumulative for the year. Helps monitor signature pace and legal throughput.";
-  export const activeContractDesc = "Summary of active contracts including start-of-year count, current active contracts, and upcoming end dates. Tracks overall contract portfolio health";
+  export const newContractDesc = "This section shows the count of newly created contracts that are still in the pipeline. It reflects the onboarding activity for the current and previous months, as well as the year-to-date total.";
+  export const contactSigDesc = "This area shows the number of contracts that are in the signature process (status: 'Signed', 'Awaiting Signatures', or 'Ready for Signature'). It helps you monitor the pace of signatures and legal throughput.";
+  export const activeContractDesc = "This summary shows all contracts with an active status (including 'Up for Renewal' and 'About to Expire'). It helps you track the overall health of your contract portfolio.";
   export const businessAreaSetting = "Choose which Business Area’s data will appear across all dashboard widgets after you select the Business Area. ";
   export const globalAutoRefreshSetting = "Set how often the Global Dashboard automatically refreshes with the latest data. Choose shorter intervals for real-time tracking.";
   export const businessAreaAutoRefreshSetting = "Set the automatic refresh frequency for all Business Area Dashboards. This can be different from the Global Dashboard refresh interval.";

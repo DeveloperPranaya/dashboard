@@ -37,7 +37,7 @@ h2 {
 .contract-table .col-checkbox {
     width: 30px;
     /* small fixed width */
-    text-align: center;
+    /* text-align: center; */
 }
 
 .contract-table .col-checkbox input[type="checkbox"] {

@@ -18,8 +18,8 @@ export const dropDownData = createAsyncThunk(
 
       if (!rowKey || !userName) {
         businessAreasUrl =
-          `${API_BASE_URL}/Dashboard/business-areas?rowKey=THEOEXvz&userName=Santosh%20Dutta`
-        // `${API_BASE_URL}/Dashboard/business-areas?rowKey=QXVolnBW&userName=Hariharan N&businessArea=CS Solutions- Business Area`
+           `${API_BASE_URL}/Dashboard/business-areas?rowKey=THEOEXvz&userName=Santosh%20Dutta`
+          // `${API_BASE_URL}/Dashboard/business-areas?rowKey=QXVolnBW&userName=Hariharan N&businessArea=+CS Solutions- Business Area`
         //  `${API_BASE_URL}/Dashboard/business-areas?rowKey=QXVolnBW&userName=Hariharan N&businessArea=CS Solutions- Business Area`
         // `${API_BASE_URL}/Dashboard/business-areas?rowKey=THEOEXvz&userName=Santosh%20Dutta`;
         userUrl =
@@ -28,21 +28,21 @@ export const dropDownData = createAsyncThunk(
         businessAreasUrl = `${API_BASE_URL}/Dashboard/business-areas?rowKey=${rowKey}&userName=${encodeURIComponent(
           userName
         )}`;
-      userUrl = !businessArea || businessArea === "Global-Dashboard"
-  ? `${API_BASE_URL}/Dashboard/load-user?rowKey=${rowKey}&userName=${encodeURIComponent(userName)}&businessArea=${encodeURIComponent(defaultBA)}`
-  : `${API_BASE_URL}/Dashboard/load-user?rowKey=${rowKey}&userName=${encodeURIComponent(userName)}&businessArea=${encodeURIComponent(businessArea)}`;
+  //     userUrl = !businessArea || businessArea === "Global-Dashboard"
+  // ? `${API_BASE_URL}/Dashboard/load-user?rowKey=${rowKey}&userName=${encodeURIComponent(userName)}&businessArea=${encodeURIComponent(defaultBA)}`
+  // : `${API_BASE_URL}/Dashboard/load-user?rowKey=${rowKey}&userName=${encodeURIComponent(userName)}&businessArea=${encodeURIComponent(businessArea)}`;
 
       }
 
       // ✅ Run both APIs in parallel
       const [businessAreasResponse, userResponse] = await Promise.all([
         axios.get(businessAreasUrl),
-        axios.get(userUrl),
+        // axios.get(userUrl),
       ]);
 
       return {
         businessAreas: businessAreasResponse.data,
-        user: userResponse.data,
+        // user: userResponse.data,
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

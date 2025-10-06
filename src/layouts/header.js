@@ -14,6 +14,13 @@ const API_BASE_URL = window._env_.REACT_APP_API_BASE_URL;
 function Header({ options, selected, handleDropdownChange }) {
   const dispatch = useDispatch();
   const dashboardData = useSelector((state) => state.dashboard.data);
+  const searchParams = new URLSearchParams(window.location.search);
+let urlBusinessArea = searchParams.get("businessArea");
+// Check if the first character is a letter (a-z or A-Z)
+if (urlBusinessArea && !/^[a-zA-Z]/.test(urlBusinessArea)) {
+  // Remove the first character if it's not a letter
+  urlBusinessArea = urlBusinessArea.substring(1);
+}
   const [businessData, setBusinessAreaData] = useState();
   const [lastRefreshTime, setLastRefrestData] = useState();
   const [result, setResult] = useState();
@@ -83,7 +90,8 @@ function Header({ options, selected, handleDropdownChange }) {
       const response = await axios.get(
         `https://demo-agent-api-bpfxcrcmhrbcfzht.eastus-01.azurewebsites.net/api/Dashboard/get-ba-description`,
         {
-          params: { businessAreaName: selected },
+          params: { businessAreaName: selected || urlBusinessArea},
+          // params: { businessAreaName: urlBusinessArea || selected},
         }
       );
       setBusinessAreaData(response.data);
@@ -160,3 +168,6 @@ function Header({ options, selected, handleDropdownChange }) {
 }
 
 export default Header;
+
+
+

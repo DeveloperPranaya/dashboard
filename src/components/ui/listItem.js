@@ -36,7 +36,8 @@ const GenericListItem = ({
   statusApi,
   statusKey,
   businessAreaRead,
-  selected
+  selected,
+  upcomingMileStone
 }) => {
   const readOnlyBusinessArea = businessAreaRead.map(item => item.businessAreaName);
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,7 +92,6 @@ const GenericListItem = ({
   };
 
 
-
   if (!paginatedData || paginatedData.length === 0) {
     return <NoDataAvailable />;
   }
@@ -130,13 +130,13 @@ const GenericListItem = ({
           <Container key={index}>
             <ListFirstData>
               <ListDataItem>
-                <Tooltip text={`${item.Priority} priority`}><Prioritydiv $dynamicBackground={
-                  item.Priority === "Low" ? "#7FAFE8" :
+                <Tooltip text={`${item.Priority=== null? "Low":item.Priority} priority`}><Prioritydiv $dynamicBackground={
+                  item.Priority === "Low" || item.Priority === "null"? "#7FAFE8" :
                     item.Priority === "High" ? "#E53E3E" :
                       item.Priority === "Medium" ? "#E6B273" :
                         item.Priority === "undefined" ? "" : ""
                 } /></Tooltip>
-                {item[titleKey]}
+                <Tooltip text={upcomingMileStone ? "Upcoming Milestone Title":"Obligation Title"}>{item[titleKey]}</Tooltip>
               </ListDataItem>
 
               {item[status] === "" ? "" : item[status] === "Upcoming" || item[status] === "Partial" ? (

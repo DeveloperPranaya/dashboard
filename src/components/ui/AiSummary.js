@@ -1,37 +1,55 @@
-import  { useEffect, useState } from 'react';
-const AiSummary = ({ contractTitle, status, renewalType, businessArea, contractValue, item, endDateRaw,  counterparty, contractData }) => {
+import { useEffect, useState } from 'react';
+
+const AiSummary = ({ contractTitle, status, renewalType, businessArea, contractValue, item, endDateRaw, counterparty, contractData }) => {
+
   const [displayText, setDisplayText] = useState('');
 
-    
-const summaryLines = [
-  `📄 A *${contractTitle || "contract"}* contract was signed under the *${businessArea || "unspecified area"}*.`,
-  contractValue ? `💰 It is valued at $${contractValue}.` : "💰 The value has not been disclosed.",
-  endDateRaw ? `📅 The term ends on ${endDateRaw}.` : "📅 The end date is not specified.",
-  `📌 The contract status is **${status || "N/A"}**.`,
-  renewalType ? `🔄 The renewal type is **${renewalType}**.` : "🔄 The renewal type is not defined."
-];
+  // Safe values to avoid undefined
+  const safeContractTitle = contractTitle ?? "";
+  const safeBusinessArea = businessArea ?? "";
+  const safeStatus = status ?? "";
+  const safeRenewalType = renewalType ?? "";
+  const safeContractValue = contractValue ?? "";
+  const safeEndDate = new Date(endDateRaw.split("T")[0]).toLocaleDateString(
+                      "en-US",
+                      { year: "numeric", month: "long", day: "numeric" }
+                    ) ?? "";
 
-// Final summary (multi-line string)
-const summary = summaryLines.join("\n");
+  // Build summary lines
+  const summaryLines = [
+    `📄 A *${safeContractTitle || "contract"}* contract was signed under the *${safeBusinessArea || "unspecified area"}*.`,
+    safeContractValue
+      ? `💰 It is valued at $${safeContractValue}.`
+      : "💰 The value has not been disclosed.",
+    safeEndDate
+      ? `📅 The term ends on ${safeEndDate}.`
+      : "📅 The end date is not specified.",
+    `📌 The contract status is **${safeStatus || "N/A"}**.`,
+    safeRenewalType
+      ? `🔄 The renewal type is **${safeRenewalType}**.`
+      : "🔄 The renewal type is not defined."
+  ];
 
-useEffect(() => {
-  let currentIndex = 0;
-  const typingInterval = setInterval(() => {
-    if (currentIndex < summary.length) {
-      setDisplayText((prev) => prev + summary[currentIndex]);
+  // Final summary as a single string
+  const summary = summaryLines.join("\n");
+
+  // Typing effect
+  useEffect(() => {
+    let currentIndex = 0;
+    const typingInterval = setInterval(() => {
       currentIndex++;
-    } else {
-      clearInterval(typingInterval);
-    }
-  }, 30);
+      if (currentIndex <= summary.length) {
+        setDisplayText(summary.substring(0, currentIndex));
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 30);
 
-  return () => clearInterval(typingInterval);
-}, [summary]);
+    return () => clearInterval(typingInterval);
+  }, [summary]);
 
-
-    return (
-
-       <div
+  return (
+    <div
       className="text-base leading-relaxed whitespace-pre-wrap"
       dangerouslySetInnerHTML={{
         __html: String(displayText)
@@ -39,9 +57,7 @@ useEffect(() => {
           .replace(/\*(.*?)\*/g, '<em>$1</em>'),
       }}
     />
-
-    );
+  );
 };
+
 export default AiSummary;
-
-

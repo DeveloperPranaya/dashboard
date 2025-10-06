@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Tooltip from "../ui/tooltip";
 import CommonModal from "../ui/commonModal";
 import {
   NavbarContainer,

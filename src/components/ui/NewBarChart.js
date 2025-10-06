@@ -43,8 +43,10 @@ export const CommonBarChart = ({
   dataPoints = [],
   chartTitle = 'Bar Chart',
   region,
-  renewaltype
+  renewaltype,
+  onBarClick
 }) => {
+ 
   // 🔄 Replace "Unknown" with "Not specified" just for display
   const displayLabels = labels.map(label =>
     label === "Unknown" ? "Not specified" : label
@@ -65,10 +67,17 @@ export const CommonBarChart = ({
       },
     ],
   };
-
+  
   const options = {
     responsive: true,
     plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'top',
+        formatter: (value) => value, // show exact number
+        font: { weight: 'bold', size: 12 },
+        color: '#333'
+      },
       title: {
         display: true,
         text: chartTitle,
@@ -84,13 +93,22 @@ export const CommonBarChart = ({
             const original = dataset.originalLabels[tooltipItems[0].dataIndex];
             return original === "Unknown" ? "Not specified" : original;
           },
-          label: (context) => `${context.raw.toLocaleString()} contracts`,
+          label: (context) => {
+            const value = context.raw; // exact value
+            return `${value} contracts`; // display exact, no rounding
+          },
         },
       },
     },
     scales: {
       y: {
+         beginAtZero: true, // ✅ ensures it starts at 0
         ticks: {
+          precision: 0, // ✅ force whole numbers only
+          callback: function (value) {
+            // show actual value instead of rounded
+            return value;
+          },
           font: { size: 13, weight: "bold" }
         },
         title: {
@@ -108,6 +126,16 @@ export const CommonBarChart = ({
           text: region ? 'Region' : renewaltype ? "Renewal Type" : 'Counterparty Type',
           font: { size: 13, weight: '600', lineHeight: 6 }
         }
+      }
+    },
+    onClick: (event, elements, chart) => {
+      if (!elements.length) return;
+      const { datasetIndex, index } = elements[0];
+      const label = originalLabels[index]; // use full label, not truncated
+      const value = chart.data.datasets[datasetIndex].data[index];
+
+      if (typeof onBarClick === "function") {
+        onBarClick(label, value); // ✅ call parent handler
       }
     },
   };

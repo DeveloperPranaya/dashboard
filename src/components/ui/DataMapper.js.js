@@ -1,4 +1,3 @@
-// import { getFilteredData } from "../../../commonFunction/commonfunction";
 import { getFilteredData } from "../../commonFunction/commonfunction";
 
 export default function buildDataMap(widgets, selectedData) {

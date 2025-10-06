@@ -1,16 +1,19 @@
 import ShortIcon from "../../assets/images/contractstack/short.png";
 import ShortAssending from "../../assets/images/contractstack/shortAssensing.png";
 import ShortDecending from "../../assets/images/contractstack/shortDecending.png";
-import { tableHeaders } from '../../mockdata/mockdata';
 
-const TableHeader = ({ sortKey, sortOrder, handleSort }) => (
+
+const TableHeader = ({ sortKey, sortOrder, handleSort, tableHeaders, counterType }) => (
   <thead>
     <tr>
-      {tableHeaders.map((h) => (
+      {tableHeaders && tableHeaders.map((h) => (
         <th
           key={h.id}
           onClick={() => h.sortable && handleSort(h.key)}
-          style={{ cursor: h.sortable ? "pointer" : "default" }}
+          style={{
+            cursor: h.sortable ? "pointer" : "default",
+            width: counterType ? "290px" : "auto"
+          }}
         >
           {h.label}
           {h.sortable && (

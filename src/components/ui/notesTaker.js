@@ -1,12 +1,5 @@
-import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from 'react-redux';
+import { useEffect} from "react"
 import Button from "./Button";
-import { dropDownData } from "../../redux/dropdownSlice";
-import closeButton from "../../assets/images/navbar/closeButton.png";
-import { deleteNotes } from "../../redux/noteSlice";
-import { ToastContainer, toast } from "react-toastify";
-import {NotesSkeleton, Skeleton} from "../../pages/skeleton";
-import MultiSelectDropDown from "./MultiSelectDropDown";
 import styled from "styled-components";
 
 // Styled components
@@ -45,8 +38,6 @@ top:64px;
 `;
 
 function NotesTaker({
-  setFetchNoteData,
-  fetchNoteData,
   setNotesText,
   validation,
   setValidation,
@@ -55,12 +46,7 @@ function NotesTaker({
   setToggle,
   noteText,
   submitting,
-  loadingNotes,
-  dropdownData,
-  selectedOptions,
    setSelectedOptions,
-   handleOptionClick,
-   options
 }) {
   
   const onCloseButton = () => {
@@ -90,9 +76,9 @@ function NotesTaker({
           }}
         />
         {validation && <div className="error">{validation}</div>}
-        <div className="notify-div">Notify</div>
+        {/* <div className="notify-div">Notify</div> */}
 
-        <MultiSelectDropDown setFetchNoteData={setFetchNoteData} selectedOptions={selectedOptions} options={options} width="92%" height= "40%" notesTaker handleOptionClick={handleOptionClick}/>
+        {/* <MultiSelectDropDown setFetchNoteData={setFetchNoteData} selectedOptions={selectedOptions} options={options} width="92%" height= "40%" notesTaker handleOptionClick={handleOptionClick}/> */}
 
         <div className="notify-btn" style={{marginTop:"47px"}}>
           <Button

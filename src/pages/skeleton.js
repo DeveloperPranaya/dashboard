@@ -1,5 +1,4 @@
 // components/ui/skeleton.js
-import React from 'react';
 import '../style/skeleton.css'; // create animation styles
 
 export const Skeleton = ({height = "500px", width = "100%", borderRadius = "8px", count = 3  }) => {

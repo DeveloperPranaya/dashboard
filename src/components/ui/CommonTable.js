@@ -15,6 +15,7 @@ import Pagination from './Pagination';
 import Tooltip from './tooltip';
 import AiSummary from './AiSummary';
 import NoDataAvailable from './NoDataAvailable';
+import { tableHeaders } from '../../mockdata/mockdata';
 import "../../style/table.css";
 
 function CommonTable({ data, selectCard, renewalType, setToggle, toggle }) {
@@ -59,14 +60,19 @@ function CommonTable({ data, selectCard, renewalType, setToggle, toggle }) {
   }));
 
 
-  const dropdownData =
-  test && Object.keys(test).length > 0 ? test : dropdownDataFull;
+  // const dropdownData =
+  // test && Object.keys(test).length > 0 ? test : dropdownDataFull;
+  // console.log("dropdownData:-",dropdownData);
+
+  const dropdownData = test && Object.keys(test).length > 0
+  ? Object.values(test) // convert object values to array
+  : dropdownDataFull;
   
-  const options = dropdownData.map(name => ({
-    value: name,
-    label: name,
-    isActive: "true"
-  }));
+  // const options = dropdownData.map(name => ({
+  //   value: name,
+  //   label: name,
+  //   isActive: "true"
+  // }));
   const [selectedOptions, setSelectedOptions] = useState([]);
   const sendto = selectedOptions.join(";");
   const [loadingNotes, setLoadingNotes] = useState(false);
@@ -206,7 +212,7 @@ function CommonTable({ data, selectCard, renewalType, setToggle, toggle }) {
     <>
       <div className="table-container">
         <table className="contract-table">
-          <TableHeader sortOrder={sortOrder} handleSort={handleSort} />
+          <TableHeader sortOrder={sortOrder} handleSort={handleSort} tableHeaders={tableHeaders}/>
           <tbody>
             {renewalType ? (
               renewalType.length > 0 ? (
@@ -228,7 +234,7 @@ function CommonTable({ data, selectCard, renewalType, setToggle, toggle }) {
             ) : (
               paginatedData && paginatedData.length > 0 ? (
                 paginatedData.map((item, index) => {
-                  const endDateRaw = item["Contracts.TermEndDate"];
+                const endDateRaw = item["Contracts.TermEndDate"];
                   const contractsRawKey = item["Contracts.RowKey"];
                   let displayValue = '-';
                   if (endDateRaw) {
@@ -253,7 +259,9 @@ function CommonTable({ data, selectCard, renewalType, setToggle, toggle }) {
                         <a
                           className="custom-link"
                           href={`https://koztracts-bweuadcmh3gzhccp.eastus-01.azurewebsites.net/Contracts/ContractDetails?ContractID=${item["Contracts.RowKey"]}&View=All`}
-                        >
+                           target="_blank"          // ✅ open in new tab
+                       rel="noopener noreferrer" // ✅ security best practice
+                       >
                           {item["Contracts.ContractTitle"] || <div style={{ display: "flex", alignItems: "center", marginLeft: "30px" }}>"-"</div>}
                         </a>
                       </OverflowTooltip>
@@ -334,7 +342,7 @@ function CommonTable({ data, selectCard, renewalType, setToggle, toggle }) {
                                 contractId={item['Contracts.RowKey']}
                                 contractTitle={item['Contracts.ContractTitle']}
                                 parties={item['Contracts.Counterparty']}
-                                termEndDate={endDateRaw}
+                                endDateRaw={endDateRaw}
                                 renewalType={item['Contracts.AutoRenew'] === "No" ? "Manual" : item['Contracts.AutoRenew'] === "Yes" ? "AutoRenewal" : ''}
                                 contractType={item['Contracts.ContractType']}
                                 businessArea={item['Contracts.BusinessArea']}

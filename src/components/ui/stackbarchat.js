@@ -71,48 +71,58 @@ export default function StackedBarChart({ data }) {
     ],
   };
 
+ 
   const options = {
-    responsive: true,
-    plugins: {
-      legend: {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false,
+      position: 'bottom',
+    },
+    title: {
+      display: false,
+      text: 'Renewal Types (Stacked)',
+    },
+  },
+  scales: {
+    x: {
+      stacked: true,
+      ticks: { color: '#000' },
+      grid: {
         display: false,
-        position: 'bottom',
+        drawBorder: false,
+        color: '#ccc',
+        borderDash: [4, 4],
+      },
+    },
+    y: {
+      stacked: true,
+      ticks: {
+        color: '#000',
+        display: true,   // ✅ show y-axis ticks
+      },
+      grid: {
+        drawTicks: true,
+        color: '#ccc',
+        borderDash: [2, 2],
       },
       title: {
-        display: false,
-        text: 'Renewal Types (Stacked)',
-      },
-    },
-    scales: {
-      x: {
-        stacked: true,
-        ticks: { color: '#000' },
-        grid: {
-          display: false,
-          drawBorder: false,
-          color: '#ccc',
-          borderDash: [4, 4],
-        },
-      },
-      y: {
-        stacked: true,
-        ticks: {
-          color: '#000',
-          display: false,
-        },
-        grid: {
-          drawTicks: false,
-          color: '#ccc',
-          borderDash: [2, 2],
+        display: true,   // ✅ add axis label
+        text: 'Renewals Count',
+        color: '#000',
+        font: {
+          size: 14,
+          weight: 'bold',
         },
       },
     },
-  };
+  },
+};
+
 
   return (
     <>
       <Bar data={chartData} options={options} width={664} height={364}/>
-
       <StackContainer>
         <FlexItem><Item/><FlexItem>Auto Renewal</FlexItem></FlexItem>
         <FlexItem><Item bg="#6023C0"/><FlexItem>Manual Renewal</FlexItem></FlexItem>

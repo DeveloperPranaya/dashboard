@@ -89,14 +89,14 @@ function RenewalType({ renewalType , selectedDropdown }) {
 return (
   <div className="renewaltype-container">
     <ContractHeader
-      heading="Renewals By Type"
+      heading="Renewals YTD"
       visibleButtons={["graph"]}
       view={view}
       setView={setView}
       globalRenewal={globalRenewal}
       selectedDropdown={selectedDropdown}
       onChange={handleDropdownChange}
-      desc = "Visualizes upcoming renewals categorized by business area and renewal type (e.g., Auto-renewal, Manual). Use the dropdown to select a different business area"
+      desc = "This stacked bar chart shows the total count of contract renewals for the current year, categorized by renewal type (Auto, Manual, or One Time). It helps you track renewal trends and volume on a monthly basis."
     />
     {(!transformedData.length || hasOnlyZeros) ? (
         <NoDataAvailable /> 

@@ -36,7 +36,7 @@ function UpComingObligation({ upcomingObligation, businessAreaRead, selected }) 
         <ContractHeader
           heading="Obligations"
           obligation
-          desc="Lists contractual obligations grouped by category. Use filters to view upcoming, delayed, completed, partial, or canceled obligations."
+          desc="This section lists contractual obligations grouped by category. Use the filters to view upcoming, delayed, completed, partial, or canceled obligations"
         />
       </ListFirstData>
 

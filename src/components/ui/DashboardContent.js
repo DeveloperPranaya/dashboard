@@ -1,5 +1,3 @@
-// import HeavyWidget from "./HeavyWidget";
-// import WidgetLoader from "./WidgetLoader";
 import HeavyWidget from "./HeavyWidget";
 import WidgetLoader from "../../pages/dashboard/WidgetLoader";
 

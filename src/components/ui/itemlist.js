@@ -1,7 +1,6 @@
-import { useState } from 'react';
 import Pagination from './Pagination.js'; // ✅ Import your reusable component
 import CircleImage from "../../assets/images/contractstack/circle.png";
-import FileImage from "../../assets/images/contractstack/file.png";
+import Tooltip from './tooltip.js';
 import {
   ListData,
   ListFirstData,
@@ -10,7 +9,6 @@ import {
   AreaContainer,
   Setarator,
   ItemDescription,
-  FileContainer
 } from '../../style/itemListStyle.js';
 
 const ITEMS_PER_PAGE = 15;
@@ -30,20 +28,21 @@ function ItemList({ data, currentPage, setCurrentPage}) {
         paginatedData?.map((value, index) => (
           <Container key={index}>
             <ListFirstData>
-              <ListData>{value.CounterpartyName}</ListData>
+              <Tooltip text="Counterparty Name"><ListData>{value.CounterpartyName}</ListData></Tooltip>
               <StatusDiv status={value.Status}>{value.Status}</StatusDiv>
             </ListFirstData>
 
             <ListData style={{ marginTop: "4px" }}>
               <ItemDescription>
-                <AreaContainer>{value.BusinessAreas ? value.BusinessAreas:'-'}</AreaContainer>
+                <Tooltip text="Business Areas"> <AreaContainer>{value.BusinessAreas ? value.BusinessAreas:'-'}</AreaContainer></Tooltip>             
                 <Setarator><img src={CircleImage} alt="dot" /></Setarator>
-                <AreaContainer>{value.CounterpartyType? value.CounterpartyType:"-"}</AreaContainer>
+                <Tooltip text="Counterparty Type"><AreaContainer>{value.CounterpartyType? value.CounterpartyType:"-"}</AreaContainer></Tooltip>
               </ItemDescription>
             </ListData>
 
             <ListFirstData style={{ marginTop: "4px" }}>
-              <AreaContainer>{value.Country ? value.Country:"-"}</AreaContainer>
+              <Tooltip text="Country"> <AreaContainer>{value.Country ? value.Country:"-"}</AreaContainer></Tooltip> 
+             
               {/* <FileContainer src={FileImage} alt="file" /> */}
             </ListFirstData>
           </Container>

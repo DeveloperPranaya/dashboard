@@ -7,10 +7,9 @@ export default function useBusinessArea() {
   const dropdownData = useSelector((state) => state?.dropDown?.data);
   const searchParams = new URLSearchParams(window.location.search);
   const urlBusinessArea = searchParams.get("businessArea");
-
   const [initialized, setInitialized] = useState(false);
   const [selected, setSelected] = useState("");
-
+ 
   // Fetch dropdown data
   useEffect(() => {
     dispatch(dropDownData());

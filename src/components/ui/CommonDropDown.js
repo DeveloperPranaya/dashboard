@@ -11,7 +11,7 @@ const DropDownWrapper = styled.select`
   line-height: ${(props) => props.dynamicLineHeight || "28"}; 
   background: ${(props) => props.dynamicBackground || "#F9F6FD"};
   focus-visible:outline-none !important;
-  boxSizing: 'border-box';
+  box-sizing: border-box;
 `;
 
 const CommonDropdown = ({
@@ -28,15 +28,17 @@ const CommonDropdown = ({
   dynamicmaxWidth,
   dynamicLineHeight,
   dynamicfontWight,
-  placeholder = '',   // <-- new prop
+  placeholder = '',
 }) => {
   const safeOptions = Array.isArray(options) ? options : [];
 
+  const dropdownValue = selectedValue?.trim() || "";
+  
   return (
     <DropDownWrapper
       id={id || name}
       name={name}
-      value={selectedValue}
+      value={dropdownValue}
       onChange={onChange}
       dynamicBackground={dynamicBackground}
       dynamicBorder={dynamicBorder}
@@ -56,9 +58,13 @@ const CommonDropdown = ({
         <option key={idx} value={option}>
           {option && option.replace(/[-_]+/g, ' ').trim()}
         </option>
-      ))}
+      ))} 
+     
     </DropDownWrapper>
   );
 };
 
 export default CommonDropdown;
+
+
+

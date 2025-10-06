@@ -1,69 +1,3 @@
-// // fetchWidgetData.js
-// import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-// import axios from "axios";
-
-// const API_BASE_URL = window._env_.REACT_APP_API_BASE_URL;
-// const initialState = {
-//   widgets: {},   // each layout will be stored here
-// };
-
-// export const fetchWidgetData = createAsyncThunk(
-//   "dashboard/fetchWidgetData",
-//   async ({ business_area, layout }, thunkAPI) => {
-//     const searchParams = new URLSearchParams(window.location.search);
-//     const urlBusinessArea = searchParams.get("businessArea");
-//     const finalBusinessArea = business_area || urlBusinessArea;
-
-//     try {
-//       const url = `${API_BASE_URL}/Dashboard/${encodeURIComponent(finalBusinessArea)}/${encodeURIComponent(layout)}`;
-
-//       const response = await axios.get(url);
-
-//       return { layout, data: response.data }; // store layout with data
-//     } catch (error) {
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// const fetchWidgetDataSlice = createSlice({
-//   name: "widgetData",
-//   initialState: {
-//     widgets: {},   // { WG013: {...}, WG007: {...}, ... }
-//     loading: false,
-//     error: null,
-//   },
-//  reducers: {
-//     resetWidgets: () => initialState,  // 🔥 clear widgets on dropdown change
-//   },
-// // reducers: {
-// //     resetWidgets: (state) => {
-// //       state.widgets = {};   // ✅ clears out all old widgets immediately
-// //     },
-// //   },
-//   extraReducers: (builder) => {
-//     builder
-//       .addCase(fetchWidgetData.pending, (state) => {
-//         state.loading = true;
-//         state.error = null;
-//       })
-//       .addCase(fetchWidgetData.fulfilled, (state, action) => {
-//         state.loading = false;
-//         const { layout, data } = action.payload;
-//         state.widgets[layout] = data; // save by layout key
-//       })
-//       .addCase(fetchWidgetData.rejected, (state, action) => {
-//         state.loading = false;
-//         state.error = action.payload;
-//       });
-      
-//   },
-// });
-
-// export const { resetWidgets } = fetchWidgetDataSlice.actions;
-// export default fetchWidgetDataSlice.reducer;
-
-
 // fetchWidgetData.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -82,8 +16,16 @@ export const fetchWidgetData = createAsyncThunk(
   "dashboard/fetchWidgetData",
   async ({ business_area, layout }, thunkAPI) => {
     const searchParams = new URLSearchParams(window.location.search);
-    const urlBusinessArea = searchParams.get("businessArea");
-    const finalBusinessArea = business_area || urlBusinessArea;
+    let urlBusinessArea = searchParams.get("businessArea");
+
+    // Clean the businessArea (remove + and spaces)
+    if (urlBusinessArea) {
+      urlBusinessArea = urlBusinessArea.replace(/\+/g, " ").trim();
+    }
+
+    // Final business area (priority: param > url > fallback)
+    // const finalBusinessArea = (urlBusinessArea || business_area).trim();
+     const finalBusinessArea = (business_area || urlBusinessArea).trim();
 
     try {
       // Cancel any previous request for this layout
@@ -118,10 +60,12 @@ const fetchWidgetDataSlice = createSlice({
   initialState,
   reducers: {
     resetWidgets: () => {
-  Object.values(cancelTokens).forEach((token) => token.cancel("Reset triggered"));
-  cancelTokens = {};
-  return initialState;
-},
+      Object.values(cancelTokens).forEach((token) =>
+        token.cancel("Reset triggered")
+      );
+      cancelTokens = {};
+      return initialState;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -145,4 +89,6 @@ const fetchWidgetDataSlice = createSlice({
 
 export const { resetWidgets } = fetchWidgetDataSlice.actions;
 export default fetchWidgetDataSlice.reducer;
+
+
 
